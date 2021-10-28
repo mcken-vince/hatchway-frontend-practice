@@ -17,16 +17,14 @@ const useWeatherData = () => {
         const current: Date = new Date();
         const formattedForecast: IDailyForecast[] = fiveDayForecast.map((day, idx) => {
           // Returns an object with only the needed information
-          const iconUrl: string = `http://openweathermap.org/img/wn/${day.weather[0].icon}@2x.png`
-          return ({day: current.setDate(current.getDate()+idx), minTemp: day.temp.min, maxTemp: day.temp.max, icon: iconUrl, alt: day.weather[0].main})
-        
-
+          const iconUrl: string = `http://openweathermap.org/img/wn/${day.weather[0].icon}@2x.png`;
+          return ({day: current.setDate(current.getDate()+idx), minTemp: day.temp.min, maxTemp: day.temp.max, icon: iconUrl, alt: day.weather[0].main});
         });
         setWeatherData(formattedForecast);
       })
       .catch(err => console.error('Error fetching weather forecast from API'));
   
-  }, [uri])
+  }, [uri]);
   return weatherData;
 }
 export default useWeatherData;
