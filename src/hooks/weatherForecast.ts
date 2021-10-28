@@ -1,34 +1,31 @@
 import axios from 'axios';
-import { timeStamp } from 'console';
 import { useEffect, useState } from 'react';
+import { IDailyForecast } from '../types';
 
 const calgaryLatitude: string = '51.049999';
-const calgaryLongitude: string = '-114.066666'
+const calgaryLongitude: string = '-114.066666';
 
 const useWeatherData = () => {
-  const [weatherData, setWeatherData] = useState<any>(null);
+  const [weatherData, setWeatherData] = useState<IDailyForecast[] | null>(null);
   const uri: string = `http://api.openweathermap.org/data/2.5/onecall?lat=${calgaryLatitude}&lon=${calgaryLongitude}&exclude=minutely,hourly,alerts&units=metric&appid=${process.env.REACT_APP_OPEN_WEATHER_API_KEY}`;
 
+  // Only fetch forecast from API once
   useEffect(() => {
     axios.get(uri)
-    .then(response => {
-      const timezoneOffset = response.data.timezone_offset;
-      const dailyForecast: any[] = response.data.daily;
-      const formattedForecast = dailyForecast.map((day, idx) => {
-        // Returns an object with only the needed information
-        // Only today and next 4 days
-        if (idx < 5) {
-          return ({day: idx, dt: day.dt - timezoneOffset, minTemp: day.temp.min, maxTemp: day.temp.max, icon: day.weather[0].icon})
-        }
+      .then(response => {
+        const fiveDayForecast: any[] = response.data.daily.slice(0, 5);
+        const formattedForecast: IDailyForecast[] = fiveDayForecast.map((day, idx) => {
+          // Returns an object with only the needed information
+          const iconUrl = `http://openweathermap.org/img/wn/${day.weather[0].icon}@2x.png`
+          return ({day: idx, minTemp: day.temp.min, maxTemp: day.temp.max, icon: iconUrl, alt: day.weather[0].main})
+        
+
+        });
+        setWeatherData(formattedForecast);
       })
-      setWeatherData(formattedForecast);
-    })
-    .catch(err => console.error('Error fetching weather forecast from API'));
+      .catch(err => console.error('Error fetching weather forecast from API'));
   
   }, [uri])
-
-  
-
   return weatherData;
 }
 export default useWeatherData;
