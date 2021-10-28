@@ -9,11 +9,15 @@ function App() {
 
   const forecast: appForecast = useWeatherForecast();
 
-  
+  const fiveDayForecast = forecast?.map(day => {
+    return <DailyForecastCard {...day}/>;
+  });  
 
   return (
     <div className="App">
-      {forecast && <DailyForecastCard {...forecast[0]}/>}    
+      <div className='five-day-forecast-container'>
+      {forecast && fiveDayForecast}    
+      </div>
     </div>
   );
 }
