@@ -1,7 +1,23 @@
 .daily-forecast-card-container {
   width: max-content;
   height: max-content;
+  border: 2px black solid;
+  padding: 1em 1em;
   &.today {
     background-color: light-grey;
+  }
+
+  .daily-forecast-card-header {
+    
+  }
+
+  .daily-forecast-card-image {
+
+  }
+
+  .daily-forecast-card-footer {
+    display: flex;
+    justify-content: space-between;
+    padding: 0em .5em;
   }
 }
