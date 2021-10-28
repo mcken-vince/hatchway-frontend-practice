@@ -9,8 +9,8 @@ function App() {
 
   const forecast: appForecast = useWeatherForecast();
 
-  const fiveDayForecast = forecast?.map(day => {
-    return <DailyForecastCard {...day}/>;
+  const fiveDayForecast = forecast?.map((day, idx) => {
+    return <DailyForecastCard key={idx} {...day}/>;
   });  
 
   return (

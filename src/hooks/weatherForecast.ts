@@ -14,10 +14,10 @@ const useWeatherData = () => {
     axios.get(uri)
       .then(response => {
         const fiveDayForecast: any[] = response.data.daily.slice(0, 5);
-        const current = new Date();
+        const current: Date = new Date();
         const formattedForecast: IDailyForecast[] = fiveDayForecast.map((day, idx) => {
           // Returns an object with only the needed information
-          const iconUrl = `http://openweathermap.org/img/wn/${day.weather[0].icon}@2x.png`
+          const iconUrl: string = `http://openweathermap.org/img/wn/${day.weather[0].icon}@2x.png`
           return ({day: current.setDate(current.getDate()+idx), minTemp: day.temp.min, maxTemp: day.temp.max, icon: iconUrl, alt: day.weather[0].main})
         
 
